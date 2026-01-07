@@ -1,0 +1,37 @@
+
+<div class="form-container">
+  <h2>שליחת אימייל</h2>
+  
+  <div class="input-group">
+    <i class="fa fa-envelope"></i>
+    <input [(ngModel)]="carrier" type="text" placeholder="הכנס נושא">
+  </div>
+  
+  <div class="input-group">
+    <i class="fa fa-user"></i>
+    <select [(ngModel)]="addressee">
+      <option value="Tamar_shlush">tsphoto3256#gmail.com</option>
+      <option value="Tamar">t4442024@gmail.com</option>
+    </select>
+  </div>
+  
+  <div class="input-group">
+    <i class="fa fa-list"></i>
+    <select [(ngModel)]="type">
+      <option value="option1">אירוסין</option>
+      <option value="option2">חתונה</option>
+      <option value="option3">אבל</option>
+      <option value="option4">עדכון</option>
+    </select>
+  </div>
+  
+  <div class="input-group">
+    <i class="fa fa-pencil"></i>
+    <input [(ngModel)]="content" type="text" placeholder="הכנס תוכן">
+  </div>
+  
+  <button class="send" (click)="printMessage(content, carrier, type, addressee)">
+    <i class="fa fa-paper-plane"></i> שלח
+  </button>
+</div>
+
