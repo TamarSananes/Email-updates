@@ -1,0 +1,181 @@
+
+:host {
+  display: block;
+  direction: rtl;
+
+  /* --- הגדרות עיצוב גלובליות --- */
+  --max-w: 1000px;
+  --paper: #ffffff;     /* רקע הכרטיס */
+  --ink: #000000;       /* שחור בסיס */
+  --muted: #2f2f2f;     /* אפור לטקסטי משנה */
+
+  /* מסגרת/קישוטים */
+  --accent: var(--ink);       /* צבע הקישוטים והמסגרת (נשאר שחור בדיפולט) */
+  --title-accent: #d82121;    /* צבע המילה "מאורסים" בלבד (זהב עדין) */
+
+  /* טיפוגרפיה */
+  --title-size: clamp(44px, 9vw, 92px);
+  --side-name-size: clamp(22px, 3.6vw, 38px);
+  --side-body-size: clamp(15px, 2.2vw, 20px);
+  --date-size: clamp(14px, 2vw, 18px);
+  --line-h: 1.45;
+
+  /* משפחות גופן: תעדיפי עבריים אם זמינים */
+  font-family: "Frank Ruhl Libre", "David Libre", "Narkisim",
+               "Times New Roman", "Arial", sans-serif;
+
+  /* רקע סביבת הדף (לא מודפס) */
+  background: #ececec;
+  color: var(--ink);
+}
+
+/* --- מעטפת --- */
+.wrap {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+/* כרטיס + מסגרת חיצונית */
+.card {
+  width: min(100%, var(--max-w));
+  background: var(--paper);
+  position: relative;
+  padding: 14px;                 /* מרווח למסגרת החיצונית */
+  border: 8px solid var(--ink);  /* מסגרת חיצונית עבה, כמו בתמונה */
+  box-shadow: 0 10px 26px rgba(0,0,0,.08);
+}
+
+/* מסגרת תחרה פנימית (SVG טבוע) */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 10px;                  /* מסגרת פנימית במרחק אחיד */
+  border: 16px solid transparent;
+
+  /* SVG עיטורי לולאות עם פינות עגולות */
+  border-image-source: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>\
+  <defs>\
+    <pattern id='p' width='64' height='64' patternUnits='userSpaceOnUse'>\
+      <g fill='none' stroke='%23000' stroke-width='2'>\
+        <path d='M4,32c0,-15 11,-28 28,-28c17,0 28,13 28,28c0,15 -11,28 -28,28C15,60 4,47 4,32z'/>\
+        <circle cx='6' cy='6' r='4'/><circle cx='58' cy='58' r='4'/>\
+        <circle cx='58' cy='6' r='4'/><circle cx='6' cy='58' r='4'/>\
+      </g>\
+    </pattern>\
+  </defs>\
+  <rect width='64' height='64' fill='url(#p)' rx='16' ry='16'/>\
+</svg>");
+  border-image-slice: 32 fill;
+  border-image-repeat: round;
+  border-image-width: 16;
+  pointer-events: none;
+}
+
+/* תוכן פנימי */
+.inner {
+  position: relative;
+  z-index: 1;
+  padding: 22px 26px;
+}
+
+/* פריסה: ימין | מרכז | שמאל */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(320px, 1.2fr) 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* --- טורי צד --- */
+.side { line-height: var(--line-h); }
+.side-right { text-align: right; }
+.side-left  { text-align: left; } /* כמו בתמונה – אסימטריה קלה */
+
+.side-name {
+  margin: 0 0 6px;
+  font-size: var(--side-name-size);
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.side-lines {
+  font-size: var(--side-body-size);
+  color: var(--muted);
+}
+
+/* --- מרכז --- */
+.center {
+  text-align: center;
+  line-height: var(--line-h);
+}
+
+/* קישוטים מסולסלים (SVG בקווים) */
+.swirl-line {
+  height: 24px;
+  background: center/contain no-repeat;
+  opacity: .95;
+}
+.swirl-line.top {
+  margin-bottom: 4px;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 40'>\
+  <path d='M5 20c35-18 70-18 105 0s70 18 105 0 70-18 80-10' fill='none' stroke='%23000' stroke-width='3'/>\
+  <path d='M35 20c0 8-6 14-14 14S7 28 7 20 13 6 21 6' fill='none' stroke='%23000' stroke-width='3'/>\
+  <path d='M265 20c0 8 6 14 14 14s14-6 14-14-6-14-14-14' fill='none' stroke='%23000' stroke-width='3'/>\
+</svg>");
+}
+.swirl-line.bottom {
+  margin-top: 4px;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 40'>\
+  <path d='M5 20c35 18 70 18 105 0s70-18 105 0 70 18 80 10' fill='none' stroke='%23000' stroke-width='3'/>\
+  <path d='M35 20c0-8-6-14-14-14S7 12 7 20s6 14 14 14' fill='none' stroke='%23000' stroke-width='3'/>\
+  <path d='M265 20c0-8 6-14 14-14s14 6 14 14-6 14-14 14' fill='none' stroke='%23000' stroke-width='3'/>\
+</svg>");
+}
+
+/* --- הכותרת המרכזית "מאורסים" – רק היא בצבע --- */
+.title {
+  margin: 0;
+  font-size: var(--title-size);
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  color: var(--title-accent);              /* <-- רק המילה מקבלת צבע */
+  text-shadow: 0 1px 0 var(--ink), 0 0 .01px var(--ink);
+}
+
+/* תאריך/שורה משנית */
+.date {
+  font-size: var(--date-size);
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* --- רספונסיביות --- */
+@media (max-width: 820px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .side-right, .side-left { text-align: center; }
+}
+
+/* --- הדפסה --- */
+@media print {
+  :host    { background: #fff; color: #000; }
+  .wrap    { padding: 0; }
+  .card    { box-shadow: none; border-color: #000; }
+  .card::before { filter: none; } /* שמירה על חדות הסלסולים */
+}
+
+/* --- מצב אופציונלי: גרדיאנט יוקרתי רק למילה (החליפי display:block כדי להפעיל) --- */
+/* .title {
+  display: inline-block;
+  background: linear-gradient(180deg, #d4a938 0%, #a67c00 55%, #6f5300 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+} */
